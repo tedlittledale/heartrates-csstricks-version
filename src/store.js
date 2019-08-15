@@ -2,7 +2,7 @@ import { Provider } from 'mobx-react';
 import { types, onSnapshot } from 'mobx-state-tree';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import { format } from 'd3-format';
-import data from './data';
+import { data } from './data';
 
 const AnimalModel = types.model('AnimalModel', {
   Creature: '',
@@ -19,7 +19,8 @@ const ChartModel = types
     maxLongevity: types.maybeNull(types.number),
     minLongevity: types.maybeNull(types.number),
     maxWeight: types.maybeNull(types.number),
-    minWeight: types.maybeNull(types.number)
+    minWeight: types.maybeNull(types.number),
+    ready: false
   })
   .actions(self => ({
     addAnimals(animals) {
@@ -85,6 +86,8 @@ const ChartModel = types
         .base(2)
         .domain([minWeight, maxWeight])
         .range([paddingX + marginY, width - marginX - paddingX - paddingRight]);
+      self.ready = true;
+      console.log('here', self.toJSON());
     }
   }))
   .views(self => ({
@@ -175,11 +178,11 @@ const ChartModel = types
   }));
 
 const Store = types.model('Store', {
-  chart: ChartModel
+  chartModel: ChartModel
 });
-
+console.log([data]);
 const store = Store.create({
-  chart: { animals: data }
+  chartModel: { animals: data }
 });
 
 export default store;

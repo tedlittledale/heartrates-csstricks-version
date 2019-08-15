@@ -13,11 +13,14 @@
     "mobx-react": "^6.1.2",
     "mobx-react-lite": "^1.4.1",
     "mobx-state-tree": "^3.14.1",
+    "parcel-bundler": "^1.12.3",
     "ramda": "^0.26.1",
     "react": "^16.0.0",
     "react-dom": "^16.9.0",
+    "src": "^1.1.2",
     "styled-components": "4.1.2",
-    "styled-tools": "^1.7.1"
+    "styled-tools": "^1.7.1",
+    "utils": "^0.3.1"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
