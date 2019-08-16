@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { observer, useObservable, useObserver } from 'mobx-react-lite';
 import { compose } from 'ramda';
@@ -7,6 +7,7 @@ import Key from './Key';
 import Axes from './Axes';
 import Points from './Points';
 import Loading from './Loading';
+import Dropdown from './Dropdown';
 
 const ChartWrap = styled('div')`
   margin-top: 50px;
@@ -53,29 +54,56 @@ const Credit = styled.div`
 
 const HeartrateChart = ({ model }) => {
   const targetRef = useRef();
+  const chartTitles = [
+    'Resting Heartrate vs Longevity of animal',
+    'Resting Heartrate vs Weight of Animal',
+    'Longevity of Animal vs Weight of Animal'
+  ];
+  const xAxisLabels = [
+    'Longevity (years)',
+    'Weight (KG) (log scale)',
+    'Weight (KG) (log scale)'
+  ];
+  const yAxisLabels = [
+    'Longevity (years)',
+    'Weight (KG) (log scale)',
+    'Weight (KG) (log scale)'
+  ];
   useEffect(() => {
     const { width } = targetRef.current.getBoundingClientRect();
     console.log({ width });
     model.setUpScales({ width });
   }, []);
-  console.log(model.toJSON());
   return (
     <>
-      <Key
-        animals={model.animals.length !== 0 ? model.animalsSorted() : []}
-      ></Key>
       <ChartWrap>
         <div ref={targetRef}>
-          <h2>Resting Heartrate vs Longevity of animal</h2>
+          <h2>
+            <Dropdown>
+              <select
+                onChange={e =>
+                  model.setSelectedAxes(parseInt(e.target.value, 10))
+                }
+                defaultValue={model.selectedAxes}
+              >
+                {chartTitles.map((title, idx) => (
+                  <option key={idx} value={idx}>
+                    {chartTitles[idx]}
+                  </option>
+                ))}
+              </select>
+            </Dropdown>
+          </h2>
+
           {model.ready ? (
             <div>
               <Axes
-                yTicks={model.heartAxis()}
-                xTicks={model.longevityAxis()}
-                xLabel="Longevity (years)"
-                yLabel="Resting heartrate (BPM)"
+                yTicks={model.getYAxis()}
+                xTicks={model.getXAxis()}
+                xLabel={xAxisLabels[model.selectedAxes]}
+                yLabel={yAxisLabels[model.selectedAxes]}
               ></Axes>
-              <Points points={model.longevityPoints()}></Points>
+              <Points points={model.getPoints()}></Points>
             </div>
           ) : (
             <Loading></Loading>

@@ -20,11 +20,15 @@ const ChartModel = types
     minLongevity: types.maybeNull(types.number),
     maxWeight: types.maybeNull(types.number),
     minWeight: types.maybeNull(types.number),
-    ready: false
+    ready: false,
+    selectedAxes: 0
   })
   .actions(self => ({
     addAnimals(animals) {
       self.animals = animals;
+    },
+    setSelectedAxes(val) {
+      self.selectedAxes = val;
     },
     setUpScales({ width }) {
       let maxHeartrate = 0,
@@ -100,25 +104,60 @@ const ChartModel = types
           return name.toUpperCase() < name2.toUpperCase() ? -1 : 1;
         });
     },
-    heartAxis() {
+    getXAxis() {
+      switch (self.selectedAxes) {
+        case 0:
+          return self.longevityXAxis;
+          break;
+        case 1:
+        case 2:
+          return self.weightXAxis;
+          break;
+      }
+    },
+    getYAxis() {
+      switch (self.selectedAxes) {
+        case 0:
+        case 1:
+          return self.heartYAxis;
+          break;
+        case 2:
+          return self.longevityYAxis;
+          break;
+      }
+    },
+    getPoints() {
+      switch (self.selectedAxes) {
+        case 0:
+          return self.longevityHeartratePoints;
+          break;
+        case 1:
+          return self.weightHeartratePoints;
+          break;
+        case 2:
+          return self.longevityWeightPoints;
+          break;
+      }
+    },
+    get heartYAxis() {
       return self.heartScale.ticks(10).map(val => ({
         label: val,
         y: self.heartScale(val)
       }));
     },
-    longevityYAxis() {
+    get longevityYAxis() {
       return self.longevityScaleY.ticks(10).map(val => ({
         label: val,
         y: self.longevityScaleY(val)
       }));
     },
-    longevityAxis() {
+    get longevityXAxis() {
       return self.longevityScale.ticks(10).map(val => ({
         label: val,
         x: self.longevityScale(val)
       }));
     },
-    weightAxis() {
+    get weightXAxis() {
       const f = format(',.2r');
       const f2 = format(',.2s');
       return [100, 1000, 10000, 100000, 1000000, 10000000, 100000000].map(
@@ -128,7 +167,7 @@ const ChartModel = types
         })
       );
     },
-    longevityPoints() {
+    get longevityHeartratePoints() {
       return self.animals.map(
         ({
           Creature,
@@ -144,7 +183,7 @@ const ChartModel = types
         })
       );
     },
-    longevityWeightPoints() {
+    get longevityWeightPoints() {
       return self.animals.map(
         ({
           Creature,
@@ -160,7 +199,7 @@ const ChartModel = types
         })
       );
     },
-    weightPoints() {
+    get weightHeartratePoints() {
       return self.animals.map(
         ({
           Creature,

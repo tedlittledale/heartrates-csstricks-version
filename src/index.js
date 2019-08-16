@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import styled from 'styled-components';
 import store from './store';
 import HeartrateChart from './heartrateChart';
 
+const AppWrap = styled('div')`
+  font-family: arial;
+`;
+
 const App = () => (
-  <div className="App">
+  <AppWrap>
     <HeartrateChart model={store.chartModel}></HeartrateChart>
-  </div>
+  </AppWrap>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
