@@ -50,7 +50,16 @@ const XAxis = styled.svg`
   }
 `;
 
-const Axes = ({ yTicks, xTicks, yLabel, xLabel }) => {
+const Axes = ({ yTicks, xTicks, yLabel, xLabel, paddingAndMargins }) => {
+  const {
+    paddingX,
+    paddingRight,
+    marginX,
+    marginY,
+    marginTop,
+    chartHeight
+  } = paddingAndMargins;
+  const xTickHeight = 10;
   return (
     <AxesWrap>
       <YAxis>
@@ -65,8 +74,8 @@ const Axes = ({ yTicks, xTicks, yLabel, xLabel }) => {
         </text>
         {yTicks.map(({ label, y }, i) => (
           <g key={i}>
-            <line x1={30} x2="95%" y1={y} y2={y} />
-            <text x={30} y={y + 11}>
+            <line x1={paddingX} x2="95%" y1={y} y2={y} />
+            <text x={paddingX} y={y + 11}>
               {label}
             </text>
           </g>
@@ -74,13 +83,22 @@ const Axes = ({ yTicks, xTicks, yLabel, xLabel }) => {
         }
       </YAxis>
       <XAxis>
-        <text x="50%" y={470} textAnchor="middle" dy="1em">
+        <text x="50%" y={chartHeight - marginY} textAnchor="middle" dy="1em">
           {xLabel}
         </text>
         {xTicks.map(({ label, x }, i) => (
           <g key={i}>
-            <line x1={x} x2={x} y1={440} y2={450} />
-            <text x={x} textAnchor="middle" y={465}>
+            <line
+              x1={x}
+              x2={x}
+              y1={chartHeight - marginY - marginTop}
+              y2={chartHeight - marginY - marginTop + xTickHeight}
+            />
+            <text
+              x={x}
+              textAnchor="middle"
+              y={chartHeight - marginY - marginTop + xTickHeight + 10}
+            >
               {label}
             </text>
           </g>

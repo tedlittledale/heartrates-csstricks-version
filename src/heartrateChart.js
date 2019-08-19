@@ -102,6 +102,7 @@ const HeartrateChart = ({ model }) => {
                 xTicks={model.getXAxis()}
                 xLabel={xAxisLabels[model.selectedAxes]}
                 yLabel={yAxisLabels[model.selectedAxes]}
+                paddingAndMargins={model.paddingAndMargins}
               ></Axes>
               <Points points={model.getPoints()}></Points>
             </div>

@@ -3,12 +3,13 @@ import { types, onSnapshot } from 'mobx-state-tree';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import { format } from 'd3-format';
 import { data } from './data';
+import { type } from 'os';
 
 const AnimalModel = types.model('AnimalModel', {
-  Creature: '',
-  Longevity__Years_: 0,
-  Mass__grams_: 0,
-  Resting_Heart_Rate__BPM_: 0
+  Creature: types.string,
+  Longevity__Years_: types.number,
+  Mass__grams_: types.number,
+  Resting_Heart_Rate__BPM_: types.number
 });
 
 const ChartModel = types
@@ -20,6 +21,14 @@ const ChartModel = types
     minLongevity: types.maybeNull(types.number),
     maxWeight: types.maybeNull(types.number),
     minWeight: types.maybeNull(types.number),
+    paddingAndMargins: types.frozen({
+      paddingX: 30,
+      paddingRight: 0,
+      marginX: 30,
+      marginY: 30,
+      marginTop: 30,
+      chartHeight: 500
+    }),
     ready: false,
     selectedAxes: 0
   })
@@ -37,12 +46,14 @@ const ChartModel = types
         minLongevity = 0,
         maxWeight = 0,
         minWeight = 0;
-      const paddingX = 30;
-      const paddingRight = 0;
-      const marginX = 30;
-      const marginY = 30;
-      const marginTop = 30;
-      const chartHeight = 500;
+      const {
+        paddingX,
+        paddingRight,
+        marginX,
+        marginY,
+        marginTop,
+        chartHeight
+      } = self.paddingAndMargins;
       self.animals.forEach(
         ({
           Creature,
