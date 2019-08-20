@@ -190,7 +190,7 @@ const ChartModel = types
 const Store = types.model('Store', {
   chartModel: ChartModel
 });
-console.log([data]);
+
 const store = Store.create({
   chartModel: { animals: data }
 });

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { observer, useObservable, useObserver } from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 
 import Key from './Key';
 import Axes from './Axes';

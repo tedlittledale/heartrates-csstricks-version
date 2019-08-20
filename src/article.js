@@ -5,8 +5,6 @@ import Markdown from 'markdown-to-jsx';
 
 import markdown from './article.md';
 
-console.log(markdown);
-
 const AppWrap = styled('div')`
   font-family: arial;
 `;
