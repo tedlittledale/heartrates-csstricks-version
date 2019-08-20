@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const DropdownWrap = styled('div')`
-  margin: 10px 30px;
-  width: 400px;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 400px;
   border-radius: 5px;
   border: 1px solid #ccc;
   overflow: hidden;
@@ -18,7 +19,7 @@ const DropdownWrap = styled('div')`
     background: transparent;
     background-image: none;
     -webkit-appearance: none;
-    font-size: 18px;
+    font-size: 16px;
   }
   select:focus {
     outline: none;

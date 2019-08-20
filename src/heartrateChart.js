@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { observer, useObservable, useObserver } from 'mobx-react-lite';
-import { compose } from 'ramda';
 
 import Key from './Key';
 import Axes from './Axes';
@@ -23,7 +22,7 @@ const ChartWrap = styled('div')`
     margin: 0 0 10px;
     padding: 20px 40px;
     border-radius: 5px 5px 0 0;
-    text-align: left;
+    text-align: center;
     color: #fff;
     font-weight: normal;
     letter-spacing: 0.8px;
@@ -65,14 +64,21 @@ const HeartrateChart = ({ model }) => {
     'Weight (KG) (log scale)'
   ];
   const yAxisLabels = [
-    'Longevity (years)',
-    'Weight (KG) (log scale)',
-    'Weight (KG) (log scale)'
+    'Resting Heart rate (BPM)',
+    'Resting Heart rate (BPM)',
+    'Longevity (years)'
   ];
-  useEffect(() => {
+  const updateScales = () => {
     const { width } = targetRef.current.getBoundingClientRect();
     console.log({ width });
     model.setUpScales({ width });
+  };
+  useEffect(() => {
+    updateScales();
+    window.addEventListener('resize', updateScales);
+    return () => {
+      window.removeEventListener('resize', updateScales);
+    };
   }, []);
   return (
     <>
